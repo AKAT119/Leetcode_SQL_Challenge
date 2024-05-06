@@ -12,7 +12,13 @@ WHERE area >= 3000000 OR population >= 25000000;
 #-------------------------------
 
 SELECT DISTINCT author_id AS id
-FROM Views
+FROM Views 
 
 WHERE author_id = viewer_id
 ORDER BY id ASC;
+
+#-------------------------------
+SELECT tweet_id
+FROM Tweets
+WHERE CHAR_LENGTH(content)>15;
+#-------------------------------
