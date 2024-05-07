@@ -28,3 +28,7 @@ FROM Employees  e
 LEFT JOIN EmployeeUNI  UNI
 ON  e.id = UNI.id;
 #----------------------------
+SELECT Product.product_name,Sales.year, Sales.price
+FROM Sales
+LEFT JOIN Product
+ON Sales.product_id = Product.product_id;
