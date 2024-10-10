@@ -68,3 +68,11 @@ GROUP BY
 stu.student_id, stu.student_name, sub.subject_name
 ORDER BY
 stu.student_id, sub.subject_name;
+#-------------------------------
+# Write your MySQL query statement below
+SELECT E1.name
+FROM Employee E1
+JOIN Employee E2
+ON E1.id = E2.managerId
+GROUP BY E1.name
+HAVING  COUNT(E2.managerId) >= 5;
