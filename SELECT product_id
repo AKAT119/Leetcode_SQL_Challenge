@@ -108,4 +108,6 @@ FROM Prices p Left JOIN UnitsSold us ON p.product_id = us.product_id
 AND purchase_date BETWEEN start_date AND end_date
 GROUP BY p.product_id;
 #-------------------------connection test
-
+SELECT project_id, ROUND(SUM(experience_years)/COUNT(p.employee_id),2) AS average_years
+FROM Project p LEFT JOIN Employee e ON p.employee_id = e.employee_id
+GROUP by project_id;
