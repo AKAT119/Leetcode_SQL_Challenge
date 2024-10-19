@@ -111,3 +111,9 @@ GROUP BY p.product_id;
 SELECT project_id, ROUND(SUM(experience_years)/COUNT(p.employee_id),2) AS average_years
 FROM Project p LEFT JOIN Employee e ON p.employee_id = e.employee_id
 GROUP by project_id;
+#---------------------------
+SELECT contest_id, ROUND(COUNT(user_id)*100/ (SELECT COUNT(user_id) FROM Users), 2) AS percentage
+FROM Register
+GROUP BY contest_id
+ORDER BY percentage DESC, contest_id ASC ;
+#--------------------------------
