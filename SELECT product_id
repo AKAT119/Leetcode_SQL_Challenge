@@ -140,3 +140,15 @@ FROM
     Transactions
 GROUP BY 
     month, country;
+#----------------------------
+
+    WITH first_order as 
+(
+    SELECT customer_id, min(order_date) as min_date
+    FROM Delivery
+    GROUP BY customer_id
+)
+SELECT ROUND(SUM(CASE WHEN min_date = customer_pref_delivery_date THEN 1 ELSE 0 END) * 100/ COUNT(DISTINCT fo.customer_id),2)
+AS immediate_percentage
+FROM first_order fo LEFT JOIN Delivery d ON fo.customer_id = d.customer_id
+AND fo.min_date = d.order_date;
