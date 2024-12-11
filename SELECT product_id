@@ -141,7 +141,7 @@ FROM
 GROUP BY 
     month, country;
 #----------------------------
-
+#Using CTE
     WITH first_order as 
 (
     SELECT customer_id, min(order_date) as min_date
@@ -152,3 +152,17 @@ SELECT ROUND(SUM(CASE WHEN min_date = customer_pref_delivery_date THEN 1 ELSE 0 
 AS immediate_percentage
 FROM first_order fo LEFT JOIN Delivery d ON fo.customer_id = d.customer_id
 AND fo.min_date = d.order_date;
+#---------------
+#Write your MySQL query statement below
+#find the player who played and plyaed the next day
+#count the number of them 
+#devided by count of whole plyaers
+
+SELECT ROUND (
+    (SELECT COUNT(DISTINCT a1.player_id)
+    FROM Activity a1 JOIN Activity a2
+    ON a1.player_id = a2.player_id  AND DATE_ADD(a1.event_date, INTERVAL 1 DAY) = a2.event_date) / COUNT(DISTINCT player_id)
+    ,2) AS fraction
+FROM Activity;
+
+
