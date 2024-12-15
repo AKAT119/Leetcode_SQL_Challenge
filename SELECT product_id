@@ -166,3 +166,7 @@ SELECT ROUND (
 FROM Activity;
 
 
+# ---------
+SELECT DISTINCT teacher_id, COUNT(DISTINCT subject_id) AS cnt
+FROM teacher
+group by teacher_id;
