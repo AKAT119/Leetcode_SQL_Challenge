@@ -170,3 +170,11 @@ FROM Activity;
 SELECT DISTINCT teacher_id, COUNT(DISTINCT subject_id) AS cnt
 FROM teacher
 group by teacher_id;
+#-------------
+
+SELECT MAX(num) as num
+FROM(
+SELECT num, COUNT(num) as countnum 
+FROM MyNumbers as MN
+GROUP BY num 
+HAVING countnum =1) as countednums;
