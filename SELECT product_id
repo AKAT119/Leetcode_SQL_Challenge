@@ -178,3 +178,11 @@ SELECT num, COUNT(num) as countnum
 FROM MyNumbers as MN
 GROUP BY num 
 HAVING countnum =1) as countednums;
+#------------------------------------------------------
+
+# Write your MySQL query statement below
+SELECT employee_id, department_id
+FROM 
+    (SELECT *, COUNT(employee_id) OVER(PARTITION BY employee_id) AS EmployeeCount
+    FROM Employee) EmployeePartition
+WHERE primary_flag = 'Y' OR EmployeeCount = 1;
