@@ -195,3 +195,25 @@ WHEN (x + y > z) AND (x + z > y) AND (y + z > x) THEN 'Yes'
 ELSE 'No'
 END triangle
 FROM Triangle;
+--------------------------------------------
+# 3 self joins
+SELECT DISTINCT a.Num as ConsecutiveNums
+FROM Logs a
+JOIN Logs b ON a.Id = b.Id +1 AND a.Num  = b.Num
+JOIN Logs c ON a.Id = c.Id +2 AND a.Num  = c.Num;
+#OR
+WITH ConsecutiveNo AS (
+    SELECT
+        Id,
+        Num,
+        LAG(Num, 1) OVER (ORDER BY Id) AS PrevNum,
+        LEAD(Num, 1) OVER (ORDER BY Id) AS NextNum,
+        LAG(Num, 2) OVER (ORDER BY Id) AS Prev2Num
+    FROM Logs
+)
+SELECT
+    Num AS ConsecutiveNums
+FROM ConsecutiveNo
+WHERE
+    Num = PrevNum AND
+    Num = Prev2Num;
