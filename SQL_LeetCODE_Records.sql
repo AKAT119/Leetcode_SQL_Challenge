@@ -217,3 +217,23 @@ FROM ConsecutiveNo
 WHERE
     Num = PrevNum AND
     Num = Prev2Num;
+    #-------------------------------------------
+    
+
+SELECT DISTINCT Products.product_id, COALESCE (lataset_price.new_price,10) AS Price
+# IFNull can be used instead of COALESCE
+FROM Products LEFT JOIN 
+    (
+    #get the lataset price change with product id
+    SELECT product_id, new_price 
+    FROM Products
+    WHERE (product_id, change_date) IN 
+        (   SELECT product_id, MAX(change_date) AS change_date
+            FROM Products
+            WHERE change_date <= '2019-08-16'
+            GROUP BY product_id 
+        )
+
+    ) AS lataset_price
+
+ON products.product_id = lataset_price.product_id
