@@ -218,7 +218,7 @@ WHERE
     Num = PrevNum AND
     Num = Prev2Num;
     #-------------------------------------------
-    
+
 
 SELECT DISTINCT Products.product_id, COALESCE (lataset_price.new_price,10) AS Price
 # IFNull can be used instead of COALESCE
@@ -237,3 +237,14 @@ FROM Products LEFT JOIN
     ) AS lataset_price
 
 ON products.product_id = lataset_price.product_id
+#-------------------------------------------
+
+SELECT person_name
+
+FROM (
+SELECT person_name,turn,  SUM(weight) OVER (ORDER BY turn ) AS TotalWeight
+FROM Queue) windowfunc
+
+WHERE TotalWeight <= 1000
+ORDER BY turn DESC
+LIMIT 1;
