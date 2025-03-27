@@ -248,3 +248,12 @@ FROM Queue) windowfunc
 WHERE TotalWeight <= 1000
 ORDER BY turn DESC
 LIMIT 1;
+#-------------------------------------------
+SELECT CONCAT(Name, '(', LEFT(Occupation,1), ')')
+FROM OCCUPATIONS
+ORDER BY NAME;
+
+SELECT CONCAT('There are a total of ', COUNT(occupation), ' ', lower(occupation),'s.')
+FROM Occupations
+GROUP BY occupation
+ORDER BY COUNT(occupation), occupation;
