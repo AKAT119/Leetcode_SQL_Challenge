@@ -262,3 +262,8 @@ SELECT employee_id
 FROM employees
 WHERE salary <30000 AND manager_id  NOT IN (SELECT employee_id from employees)
 ORDER BY employee_id;
+#-------------------------------------------
+
+SELECT user_id, CONCAT(UPPER(LEFT(name,1)), LOWER(SUBSTRING(name,2))) AS name
+FROM Users
+ORDER BY user_id;
