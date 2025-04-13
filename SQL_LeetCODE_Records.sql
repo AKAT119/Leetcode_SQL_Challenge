@@ -267,3 +267,7 @@ ORDER BY employee_id;
 SELECT user_id, CONCAT(UPPER(LEFT(name,1)), LOWER(SUBSTRING(name,2))) AS name
 FROM Users
 ORDER BY user_id;
+#--------------------------------
+DELETE p2
+FROM Person p1
+JOIN Person p2 ON p1.email = p2.email AND p1.id < p2.id;
