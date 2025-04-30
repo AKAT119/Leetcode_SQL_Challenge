@@ -272,7 +272,7 @@ DELETE p2
 FROM Person p1
 JOIN Person p2 ON p1.email = p2.email AND p1.id < p2.id;
 #----------------------
-# Write your MySQL query statement below
+--Write your MySQL query statement below
 SELECT 
   sell_date, 
   COUNT(DISTINCT product) AS num_sold, 
@@ -287,7 +287,62 @@ ON p.product_id = o.product_id
 WHERE YEAR(o.order_date)='2020' AND MONTH(o.order_date)='02'
 GROUP BY p.product_id
 HAVING SUM(unit) >= 100;
-#----------------------------------
+------------------------------------
 SELECT user_id, name, mail
 FROM Users
 WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9._-]*@leetcode\\.com$';
+-----------------------------------------------------------------
+--1907. Count Salary Categories version#1
+WITH category_list AS (
+    SELECT 'Low Salary' AS salary_category
+    UNION ALL
+    SELECT 'Average Salary'
+    UNION ALL
+    SELECT 'High Salary'
+),
+category_setter AS (
+    SELECT account_id,
+        CASE
+            WHEN income < 20000 THEN 'Low Salary'
+            WHEN income BETWEEN 20000 AND 50000 THEN 'Average Salary'
+            WHEN income > 50000 THEN 'High Salary'
+        END AS salary_category
+    FROM Accounts
+)
+
+SELECT 
+    cl.salary_category AS category,
+    COUNT(cs.account_id) AS accounts_count
+FROM category_list cl
+LEFT JOIN category_setter cs 
+    ON cl.salary_category = cs.salary_category
+GROUP BY cl.salary_category
+ORDER BY 
+    CASE cl.salary_category
+        WHEN 'Low Salary' THEN 1
+        WHEN 'Average Salary' THEN 2
+        WHEN 'High Salary' THEN 3
+    END;
+--version#2 
+
+SELECT 'Low Salary' AS category, SUME(CASE WHEN income < 20000 THEN 1 ELSE 0 END) AS accounts_count
+FROM Accounts 
+
+UNION 
+SELECT 'Average Salary' AS category, SUME(CASE WHEN income BETWEEN 20000 AND 50000 THEN 1 ELSE 0 END) AS accounts_count
+FROM Accounts 
+UNION 
+SELECT 'High Salary' AS category, SUME(CASE WHEN income > 50000 THEN 1 ELSE 0 END) AS accounts_count
+FROM Accounts 
+---------------------------------------------------------------------------------
+# Write your MySQL query statement below
+with highest_second_salary AS
+(
+    SELECT salary, dense_rank() over (ORDER BY salary DESC) rank_highest
+    FROM Employee
+)
+
+SELECT  MAX(Salary) as SecondHighestSalary
+FROM highest_second_salary 
+WHERE rank_highest = 2
+    
