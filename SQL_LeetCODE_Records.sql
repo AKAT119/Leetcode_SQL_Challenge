@@ -345,4 +345,25 @@ with highest_second_salary AS
 SELECT  MAX(Salary) as SecondHighestSalary
 FROM highest_second_salary 
 WHERE rank_highest = 2
-    
+----------------------
+--version#1  626. Exchange Seats
+
+SELECT 
+    CASE
+        WHEN id % 2 = 1 AND id +1 IN (SELECT id FROM Seat) THEN id +1
+        WHEN id % 2 = 0 THEN id - 1
+        ELSE id
+    END AS id,
+    student
+FROM Seat 
+Order BY id;
+----------------------
+--version#2
+with temp_tble AS(
+SELECT id, student, LAG(student) OVER (ORDER BY id) lag_stud,
+LEAD(student) OVER (ORDER BY id) lead_stud
+FROM Seat
+)
+
+SELECT id, ifnull((CASE WHEN id % 2  = 0 THEN lag_stud ELSE lead_stud END), student) student
+FROM temp_tble
